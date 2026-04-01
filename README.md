@@ -1,42 +1,45 @@
 # makelife-firmware
 
-Repository firmware embarque FineFab (ESP32 et toolchain associee).
+Embedded firmware for ESP32 and STM32 targets with PlatformIO and Unity test framework.
 
-## Role
-- Maintenir les firmwares et tests natifs.
-- Standardiser build, test et publication firmware.
-- Integrer la couche de livraison dans la CI.
+Part of the [FineFab](https://github.com/L-electron-Rare) platform (Factory 4 Life).
 
-## Stack
-- C++
-- PlatformIO
-- Unity (tests)
+## What it does
 
-## Structure cible
-- `src/`: code firmware
-- `test/`: tests unitaires Unity
-- `platformio.ini`: configuration build
+- Provides production firmware for FineFab hardware boards
+- Uses PlatformIO for cross-platform build and flash
+- Includes Unity-based native and on-target test suites
+- Supports OTA updates and CI-driven firmware publishing
 
-## Demarrage rapide
+## Tech stack
+
+C++ | PlatformIO | Unity Test Framework | ESP-IDF
+
+## Quick start
+
 ```bash
-pio run
-pio test -e native
+pio run              # Build firmware
+pio test -e native   # Run native tests
+pio run -t upload    # Flash to device
 ```
 
-## Roadmap immediate
-- Finaliser migration depuis `Kill_LIFE/firmware`.
-- Ajouter couverture tests par module.
-- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Industrialiser pi- Indusrdware/`: projets et blocs KiCad
-- `spice/`: simulations
-- `tools/`: exports et automatisation
+## Project structure
 
-## Demarrage rapide
-```bash
-# Exemple (selon outillage local)
-python -m pip install -r requirements.txt 2>/dev/null || true
+```
+src/              Firmware source code
+test/             Unity unit tests
+platformio.ini    Build configuration and environments
 ```
 
-## Roadmap immediate
-- Mettre en place BaseMCPServer commune.
-- Uniformiser exports KiBot/DRC/ERC.
-- Publier evidence packs hardware.
+## Related repos
+
+| Repo | Role |
+|------|------|
+| [makelife-hard](https://github.com/L-electron-Rare/makelife-hard) | Hardware designs these firmwares target |
+| [makelife-cad](https://github.com/L-electron-Rare/makelife-cad) | CAD/EDA web platform |
+| [KIKI-models-tuning](https://github.com/L-electron-Rare/KIKI-models-tuning) | Model fine-tuning pipeline |
+| [finefab-life](https://github.com/L-electron-Rare/finefab-life) | Integration runtime and ops |
+
+## License
+
+MIT
