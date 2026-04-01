@@ -2,7 +2,7 @@
 
 Embedded firmware for ESP32 and STM32 targets with PlatformIO and Unity test framework.
 
-Part of the [FineFab](https://github.com/L-electron-Rare) platform (Factory 4 Life).
+Part of the [FineFab](https://github.com/L-electron-Rare) platform (FineFab).
 
 ## What it does
 
