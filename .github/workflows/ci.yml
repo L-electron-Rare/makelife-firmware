@@ -26,3 +26,29 @@ jobs:
         run: cmake --preset x86 && cmake --build build/x86
       - name: Run firmware in QEMU
         run: timeout 5 build/x86/app/firmware || true
+
+  cross-compile-stm32:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi binutils-arm-none-eabi
+      - name: Configure STM32
+        run: cmake --preset stm32
+      - name: Build STM32
+        run: cmake --build build/stm32
+
+  cross-compile-rp2040:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi binutils-arm-none-eabi
+      - name: Configure RP2040
+        run: cmake --preset rp2040
+      - name: Build RP2040
+        run: cmake --build build/rp2040

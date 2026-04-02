@@ -30,6 +30,30 @@
                 "TARGET_ARCH": "x86",
                 "CMAKE_BUILD_TYPE": "Release"
             }
+        },
+        {
+            "name": "stm32",
+            "displayName": "STM32F446RE (Nucleo, arm-none-eabi)",
+            "generator": "Ninja",
+            "binaryDir": "build/stm32",
+            "toolchainFile": "cmake/toolchain-arm-none-eabi.cmake",
+            "cacheVariables": {
+                "TARGET_ARCH": "stm32",
+                "CMAKE_BUILD_TYPE": "Release",
+                "BOARD_CONFIG": "${sourceDir}/boards/nucleo-f446re.cmake"
+            }
+        },
+        {
+            "name": "rp2040",
+            "displayName": "RP2040 (Raspberry Pi Pico, arm-none-eabi)",
+            "generator": "Ninja",
+            "binaryDir": "build/rp2040",
+            "toolchainFile": "cmake/toolchain-arm-none-eabi.cmake",
+            "cacheVariables": {
+                "TARGET_ARCH": "rp2040",
+                "CMAKE_BUILD_TYPE": "Release",
+                "BOARD_CONFIG": "${sourceDir}/boards/pico.cmake"
+            }
         }
     ]
 }
