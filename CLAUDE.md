@@ -4,39 +4,39 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-makelife-firmware is the embedded firmware for FineFab hardware (ESP32). Built with PlatformIO and the Arduino framework, tested with Unity.
+makelife-firmware is the multi-architecture firmware framework for FineFab. Portable HAL in C, CMake build system with presets per target, Unity tests on native host.
 
 ## Commands
 
 ```bash
-# Build
-pio run                     # All environments
-pio run -e esp32dev         # ESP32 target only
-pio run -e native           # Native (host) target only
+# Build + test (native host)
+cmake --preset native
+cmake --build build/native
+ctest --test-dir build/native --output-on-failure
 
-# Test
-pio test -e native          # Run Unity tests on host
+# Build ESP32 (requires ESP-IDF toolchain)
+cmake --preset esp32
+cmake --build build/esp32
 
-# Flash
-pio run -e esp32dev -t upload        # Flash to ESP32
-pio run -e esp32dev -t monitor       # Serial monitor (115200 baud)
+# Run firmware locally (native)
+timeout 5 build/native/app/firmware
 ```
 
 ## Architecture
 
-- `src/main.cpp` — Main firmware (setup/loop pattern, GPIO, Serial)
-- `test/test_main.cpp` — Unity tests (run on native platform, not on hardware)
-- `platformio.ini` — Build environments: `esp32dev` (target) and `native` (host tests)
-
-## Hardware
-
-- **Board**: ESP32 dev (espressif32 platform)
-- **LED**: GPIO2 (`LED_BUILTIN`)
-- **Serial**: 115200 baud
-- **Debug toolchain**: xtensa-esp-elf (VS Code PlatformIO debugger configured)
+```text
+hal/include/hal/    C interface headers (gpio.h, system.h) — portable, no arch deps
+targets/native/     Stubs for host testing — log calls, simulate state
+targets/esp32/      ESP-IDF implementation (stubs until cross-compile ready)
+app/                Application firmware — uses hal/ only, never arch-specific headers
+tests/              Unity tests — compile and run on native only
+lib/unity/          Vendored Unity test framework
+legacy/             Old PlatformIO code (src/main.cpp, platformio.ini)
+```
 
 ## Conventions
 
-- Status: v0.1.0, migrating from `Kill_LIFE/firmware`
-- Keep Arduino framework patterns (setup/loop)
-- Tests must run on `native` environment (no hardware dependency for CI)
+- App code includes only `hal/*.h` — never target-specific headers
+- Tests run on `native` target only — no hardware dependency for CI
+- New HAL interfaces: add header in `hal/include/hal/`, implement in each `targets/*/`
+- Use `native_test_helpers.h` to inject values for testing
