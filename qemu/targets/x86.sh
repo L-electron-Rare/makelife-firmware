@@ -1,0 +1,3 @@
+QEMU_CMD="qemu-x86_64"
+QEMU_ARGS=("${FIRMWARE}")
+RESULT_METHOD="exit_code"
