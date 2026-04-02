@@ -1,0 +1,25 @@
+{
+    "version": 6,
+    "configurePresets": [
+        {
+            "name": "native",
+            "displayName": "Native (Host tests)",
+            "generator": "Ninja",
+            "binaryDir": "build/native",
+            "cacheVariables": {
+                "TARGET_ARCH": "native",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "esp32",
+            "displayName": "ESP32 (ESP-IDF)",
+            "generator": "Ninja",
+            "binaryDir": "build/esp32",
+            "cacheVariables": {
+                "TARGET_ARCH": "esp32",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ]
+}
