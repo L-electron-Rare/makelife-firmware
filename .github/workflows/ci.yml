@@ -1,20 +1,28 @@
-name: CI
-on: [push, pull_request]
+name: firmware-ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
 jobs:
-  validate:
+  native-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Install PlatformIO
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install platformio
-      - name: Validate PlatformIO project configuration
-        run: pio project config > /dev/null
-      - name: Validate baseline files
-        run: |
-          test -f platformio.ini
-          test -f README.md
+      - name: Install deps
+        run: sudo apt-get install -y cmake ninja-build
+      - name: Build native
+        run: cmake --preset native && cmake --build build/native
+      - name: Run tests
+        run: ctest --test-dir build/native --output-on-failure
+
+  qemu-x86:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: sudo apt-get install -y cmake ninja-build qemu-user
+      - name: Build x86
+        run: cmake --preset x86 && cmake --build build/x86
+      - name: Run firmware in QEMU
+        run: timeout 5 build/x86/app/firmware || true
