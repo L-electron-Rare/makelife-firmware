@@ -92,3 +92,7 @@ npm-debug.log*
 tmp/
 temp/
 *.tmp
+
+# CMake build artifacts
+compile_commands.json
+build/
