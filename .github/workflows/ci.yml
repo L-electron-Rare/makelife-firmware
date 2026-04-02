@@ -27,6 +27,35 @@ jobs:
       - name: Run firmware in QEMU
         run: timeout 5 build/x86/app/firmware || true
 
+  qemu-esp32:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # esp-qemu toolchain may not be available
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get install -y cmake ninja-build gcc-xtensa-lx106
+          bash qemu/install-qemu.sh
+      - name: Check esp-qemu available
+        run: qemu-system-xtensa --version || (echo "esp-qemu not available, skipping"; exit 0)
+      - name: Build ESP32 (QEMU)
+        run: cmake --preset esp32 -DQEMU_BUILD=ON && cmake --build build/esp32
+      - name: QEMU test
+        run: qemu/run.sh esp32 --timeout 30
+
+  qemu-stm32:
+    runs-on: ubuntu-latest
+    continue-on-error: true  # ARM bare-metal toolchain may not be available
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get install -y cmake ninja-build gcc-arm-none-eabi qemu-system-arm
+      - name: Build STM32 (QEMU)
+        run: cmake --preset stm32 -DQEMU_BUILD=ON && cmake --build build/stm32
+      - name: QEMU test
+        run: qemu/run.sh stm32 --timeout 30
+
   cross-compile-stm32:
     runs-on: ubuntu-latest
     continue-on-error: true

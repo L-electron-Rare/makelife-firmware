@@ -1,6 +1,15 @@
 add_library(hal_target STATIC hal_gpio.c hal_system.c)
 target_link_libraries(hal_target PUBLIC hal)
 
+# Semihosting output for QEMU testing
+if(QEMU_BUILD)
+    target_compile_definitions(hal_target PUBLIC QEMU_BUILD=1)
+    target_link_options(hal_target PUBLIC
+        --specs=rdimon.specs
+        -lrdimon
+    )
+endif()
+
 # STM32 HAL integration (active when STM32CubeF4 sysroot is present)
 # Uncomment when cross-compiling with CubeF4 + arm-none-eabi toolchain:
 #
