@@ -96,3 +96,14 @@ temp/
 # CMake build artifacts
 compile_commands.json
 build/
+CMakeFiles/
+CMakeCache.txt
+Testing/
+cmake_install.cmake
+
+# Additional local caches
+.ruff_cache/
+.hypothesis/
+.tox/
+.ipynb_checkpoints/
+.pnpm-store/
