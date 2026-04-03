@@ -13,4 +13,19 @@ add_subdirectory(app)
 if(TARGET_ARCH STREQUAL "native")
     enable_testing()
     add_subdirectory(tests)
+
+    # Coverage (gcov/lcov) — only for native Debug builds
+    option(ENABLE_COVERAGE "Enable gcov coverage" OFF)
+    if(ENABLE_COVERAGE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+        target_compile_options(hal_target PRIVATE --coverage -fprofile-arcs -ftest-coverage)
+        target_link_options(hal_target PRIVATE --coverage)
+        add_custom_target(coverage
+            COMMAND ctest --test-dir ${CMAKE_BINARY_DIR} --output-on-failure
+            COMMAND lcov --capture --directory ${CMAKE_BINARY_DIR} --output-file coverage.info --ignore-errors mismatch
+            COMMAND lcov --remove coverage.info '/usr/*' '*/lib/unity/*' --output-file coverage.info
+            COMMAND genhtml coverage.info --output-directory coverage-html
+            COMMENT "Running tests + generating coverage report in coverage-html/"
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+        )
+    endif()
 endif()
