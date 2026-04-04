@@ -12,6 +12,17 @@
             }
         },
         {
+            "name": "cosim",
+            "displayName": "Co-simulation (shared memory HAL, host build)",
+            "generator": "Ninja",
+            "binaryDir": "build/cosim",
+            "cacheVariables": {
+                "TARGET_ARCH": "cosim",
+                "CMAKE_BUILD_TYPE": "Debug",
+                "COSIM_ENABLED": "ON"
+            }
+        },
+        {
             "name": "esp32",
             "displayName": "ESP32 (ESP-IDF)",
             "generator": "Ninja",

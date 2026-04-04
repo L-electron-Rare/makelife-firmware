@@ -10,7 +10,7 @@ add_subdirectory(hal)
 add_subdirectory(targets/${TARGET_ARCH})
 add_subdirectory(lib/unity)
 add_subdirectory(app)
-if(TARGET_ARCH STREQUAL "native")
+if(TARGET_ARCH STREQUAL "native" OR TARGET_ARCH STREQUAL "cosim")
     enable_testing()
     add_subdirectory(tests)
 
