@@ -73,3 +73,21 @@ legacy/             Old PlatformIO code (src/main.cpp, platformio.ini) — do no
 - New HAL interfaces: add header in `hal/include/hal/`, implement in each `targets/*/`
 - Use `native_test_helpers.h` to inject values for testing
 - PlatformIO is replaced by CMake — `legacy/` kept for reference only
+- ESP-IDF v5.x : utiliser les nouveaux drivers (I2C master, ADC oneshot) — les legacy sont dépréciés
+- FreeRTOS : toujours vérifier stack high water mark, default 2048 souvent insuffisant
+- Float interdit dans les ISR sur ESP32
+
+## MCP & outils disponibles
+
+| Outil | Type | Usage |
+|-------|------|-------|
+| PlatformIO MCP | MCP Kill_LIFE | Build, test, flash via Claude |
+| Plugin ESP-IDF | Claude Code plugin | ESP-IDF v5.4/5.5, drivers, gotchas |
+| embedded-debugger (probe-rs) | MCP GrosMac | Flash + RTT bidirectionnel, J-Link/ST-Link |
+| stm32-mcp | MCP GrosMac | Live memory monitoring SWD |
+| serial-mcp-server | MCP GrosMac | UART/VCP lecture logs série |
+| SPICEBridge | MCP GrosMac | Simulation analogique ngspice |
+| Renode | bash | Émulation Cortex-M sans hardware |
+| Context7 | MCP oh-my-claude | Docs ESP-IDF/FreeRTOS/HAL live |
+
+Skill : `embedded-systems-engineer` (dans `../skills/embedded-systems/`).
